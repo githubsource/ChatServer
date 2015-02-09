@@ -2,10 +2,12 @@ package com.socket;
 
 import com.conf.DatabaseManager;
 import com.conf.MyDatabase;
+import com.logic.CipherUtil;
 import com.logic.EncryptionUtil;
 import com.logic.Upload;
 import java.io.*;
 import java.net.*;
+import java.security.PublicKey;
 
 class ServerThread extends Thread { 
 	
@@ -27,13 +29,17 @@ class ServerThread extends Thread {
     
     public void send(Message msg){
         try {
-            /*
+            
            if(!(msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
                        msg.type.equals("test") || msg.type.equals("login") || msg.type.equals("newuser")) ) {
-                String txt = EncryptionUtil.plainTxt2CipherTxt(msg.content, this.ui.server.dbManager.getPublicKey(msg.recipient));
+                String pubKey = this.ui.server.dbManager.getPublicKey(msg.recipient);
+                PublicKey pubSaved = CipherUtil.loadPublicKey(pubKey);
+                String txt = EncryptionUtil.plainTxt2CipherTxt(msg.content, pubKey);
+                
+                msg.cipherBytes = EncryptionUtil.encrypt(msg.content.getBytes(), pubSaved);
                 msg.content = txt;
             }
-            */
+            
             streamOut.writeObject(msg);
             streamOut.flush();
         } 
