@@ -27,13 +27,13 @@ class ServerThread extends Thread {
     
     public void send(Message msg){
         try {
-            
-           if(!(msg.type.equals("signup") || msg.type.equals("signout") ||
+            /*
+           if(!(msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
                        msg.type.equals("test") || msg.type.equals("login") || msg.type.equals("newuser")) ) {
                 String txt = EncryptionUtil.plainTxt2CipherTxt(msg.content, this.ui.server.dbManager.getPublicKey(msg.recipient));
                 msg.content = txt;
             }
-            
+            */
             streamOut.writeObject(msg);
             streamOut.flush();
         } 
@@ -276,8 +276,19 @@ public class SocketServer implements Runnable {
                         
                         ui.btnFileSelect.setEnabled(false); ui.btnSendFile.setEnabled(false);
                         //File f = EncryptionUtil.plainFileToCipherFile(ui.file, this.dbManager.getPublicKey(msg.sender));
-                   Upload upl = new Upload(IP, port, EncryptionUtil.plainFileToCipherBy(ui.file, this.dbManager.getPublicKey(msg.sender)), ui);
-                       // Upload upl = new Upload(IP, port, ui.file, ui);
+                       
+                        // temp
+                       //ok
+                        /*
+                        String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTLImn/Uikakz9PEiG0P1ou9fKBz4mCOIecx13" +
+                        "bERuq0Rr55vl4cRjm0qteubUsXS3w+TtE1Frktf17E3XWANSWk+fA/M36RUusxQjpxmn5Ak6T9jL" +
+                        "SOJWXPs7rniCakmVRq15/H6xPmpKFx69zdnLKLpbzSC/oHI+9441SMWyfwIDAQAB";
+                        Upload upl = new Upload(IP, port, EncryptionUtil.plainFileToCipherBy(ui.file, pubKey), ui);
+                        */
+                        Upload upl = new Upload(IP, port, EncryptionUtil.plainFileToCipherBy(ui.file, this.dbManager.getPublicKey(msg.sender)), ui);
+                       
+
+// Upload upl = new Upload(IP, port, ui.file, ui);
                         Thread t = new Thread(upl);
                         t.start();
                     }
