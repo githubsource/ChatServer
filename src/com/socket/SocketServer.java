@@ -30,7 +30,7 @@ class ServerThread extends Thread {
     public void send(Message msg){
         try {
             
-           if(!(msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
+           if(!(msg.sender.equals("SERVER") || msg.type.equals("publickey_res") || msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
                        msg.type.equals("test") || msg.type.equals("login") || msg.type.equals("newuser")) ) {
                 String pubKey = this.ui.server.dbManager.getPublicKey(msg.recipient);
                 PublicKey pubSaved = CipherUtil.loadPublicKey(pubKey);
@@ -47,6 +47,16 @@ class ServerThread extends Thread {
             System.out.println("Exception [SocketClient : send(...)]");
         }
     }
+     public void sendT(Message msg){
+        try {
+            streamOut.writeObject(msg);
+            streamOut.flush();
+        } 
+        catch (Exception ex) {
+            System.out.println("Exception [SocketClient : send(...)]");
+        }
+    }
+    
     
     
     public void sendTest(Message msg, String user){
@@ -233,12 +243,15 @@ public class SocketServer implements Runnable {
                 }
             }
             else if(msg.type.equals("message")){
-                if(msg.recipient.equals("All")){
+                if(msg.content.equals("get_publickey")){
+                    findUserThread(msg.sender).send(new Message("publickey_res", "SERVER", this.ui.server.dbManager.getPublicKey(msg.recipient), msg.sender));
+                }
+                else if(msg.recipient.equals("All")){
                     Announce("message", msg.sender, msg.content);
                 }
                 else{
-                    findUserThread(msg.recipient).send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
-                    clients[findClient(ID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
+                    findUserThread(msg.recipient).sendT(new Message(msg.type, msg.sender, msg.content, msg.recipient, msg.cipherBytes));
+                   // clients[findClient(ID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
                 }
             }
             else if(msg.type.equals("test")){
