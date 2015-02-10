@@ -30,7 +30,7 @@ class ServerThread extends Thread {
     public void send(Message msg){
         try {
             
-           if(!(msg.sender.equals("SERVER") || msg.type.equals("publickey_res") || msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
+           if(!(msg.type.equals("upload_res") || msg.sender.equals("SERVER") || msg.type.equals("publickey_res") || msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
                        msg.type.equals("test") || msg.type.equals("login") || msg.type.equals("newuser")) ) {
                 String pubKey = this.ui.server.dbManager.getPublicKey(msg.recipient);
                 PublicKey pubSaved = CipherUtil.loadPublicKey(pubKey);
@@ -288,9 +288,9 @@ public class SocketServer implements Runnable {
             else if(msg.type.equals("upload_res")){
                 if(!msg.content.equals("NO")){
                     String IP = findUserThread(msg.sender).socket.getInetAddress().getHostAddress();
-                    
+                     int port  = Integer.parseInt(msg.content);
                     if(msg.recipient.equals("SERVER")) {
-                        int port  = Integer.parseInt(msg.content);
+                       
                         String addr = msg.sender;
                         
                         ui.btnFileSelect.setEnabled(false); ui.btnSendFile.setEnabled(false);
@@ -312,7 +312,8 @@ public class SocketServer implements Runnable {
                         t.start();
                     }
                     else {
-                        findUserThread(msg.recipient).send(new Message("upload_res", IP, msg.content, msg.recipient));
+                        //findUserThread(msg.recipient).send(new Message("upload_res", IP, msg.content, msg.recipient));
+                        findUserThread(msg.recipient).send(new Message("upload_res", IP, ""+port, msg.sender));
                     }
                 }
                 else {
