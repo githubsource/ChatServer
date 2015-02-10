@@ -30,7 +30,10 @@ class ServerThread extends Thread {
     public void send(Message msg){
         try {
             
-           if(!(msg.type.equals("upload_res") || msg.sender.equals("SERVER") || msg.type.equals("publickey_res") || msg.type.equals("upload_req") || msg.type.equals("signup") || msg.type.equals("signout") ||
+           if(!(msg.type.equals("upload_res") || 
+                   //(msg.sender.equals("SERVER"))|| 
+                   msg.type.equals("publickey_res") || msg.type.equals("upload_req") 
+                   || msg.type.equals("signup") || msg.type.equals("signout") ||
                        msg.type.equals("test") || msg.type.equals("login") || msg.type.equals("newuser")) ) {
                 String pubKey = this.ui.server.dbManager.getPublicKey(msg.recipient);
                 PublicKey pubSaved = CipherUtil.loadPublicKey(pubKey);
@@ -294,20 +297,9 @@ public class SocketServer implements Runnable {
                         String addr = msg.sender;
                         
                         ui.btnFileSelect.setEnabled(false); ui.btnSendFile.setEnabled(false);
-                        //File f = EncryptionUtil.plainFileToCipherFile(ui.file, this.dbManager.getPublicKey(msg.sender));
-                       
-                        // temp
-                       //ok
-                        /*
-                        String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTLImn/Uikakz9PEiG0P1ou9fKBz4mCOIecx13" +
-                        "bERuq0Rr55vl4cRjm0qteubUsXS3w+TtE1Frktf17E3XWANSWk+fA/M36RUusxQjpxmn5Ak6T9jL" +
-                        "SOJWXPs7rniCakmVRq15/H6xPmpKFx69zdnLKLpbzSC/oHI+9441SMWyfwIDAQAB";
-                        Upload upl = new Upload(IP, port, EncryptionUtil.plainFileToCipherBy(ui.file, pubKey), ui);
-                        */
-                        Upload upl = new Upload(IP, port, EncryptionUtil.plainFileToCipherBy(ui.file, this.dbManager.getPublicKey(msg.sender)), ui);
-                       
 
-// Upload upl = new Upload(IP, port, ui.file, ui);
+                        Upload upl = new Upload(IP, port, EncryptionUtil.plainFileToCipherBy(ui.file, this.dbManager.getPublicKey(msg.sender)), ui);
+
                         Thread t = new Thread(upl);
                         t.start();
                     }
@@ -328,8 +320,9 @@ public class SocketServer implements Runnable {
     }
     
     public void Announce(String type, String sender, String content){
-        Message msg = new Message(type, sender, content, "All");
+       // Message msg = new Message(type, sender, content, "All");
         for(int i = 0; i < clientCount; i++){
+            Message msg = new Message(type, sender, content, clients[i].username);
             clients[i].send(msg);
         }
     }
