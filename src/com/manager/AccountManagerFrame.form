@@ -110,6 +110,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ac" green="a6" red="12" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Nh&#x1ead;p th&#xf4;ng tin t&#xec;m ki&#x1ebf;m"/>
       </Properties>
     </Component>
@@ -135,6 +138,9 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="tblAcc">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="b6" green="fd" red="ff" type="rgb"/>
+            </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="7" rowCount="0">
                 <Column editable="true" title="id" type="java.lang.Object"/>
@@ -197,6 +203,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnAddAcc">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ee" green="8b" red="4b" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
       </Properties>
       <Events>
@@ -205,6 +214,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnEditAcc">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="f3" green="8c" red="50" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
       </Properties>
       <Events>
@@ -213,6 +225,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnDeleteAcc">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="1b" green="1" red="f5" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Xo&#xe1;"/>
       </Properties>
       <Events>
@@ -223,6 +238,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="fa" green="81" red="5c" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c n&#x103;ng"/>
       </Properties>
     </Component>

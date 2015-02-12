@@ -154,6 +154,7 @@ public class SocketServer implements Runnable {
             port = server.getLocalPort();
 	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
 	    start(); 
+            ui.btnAccMng.setEnabled(true);
         }
 	catch(IOException ioe){  
             ui.jTextArea1.append("Can not bind to port : " + port + "\nRetrying"); 
@@ -243,7 +244,7 @@ public class SocketServer implements Runnable {
                         
                         
                         // add newuser
-                        ui.model.addElement(msg.content);
+                        ui.model.addElement(msg.sender);
                         Announce("newuser", "SERVER", msg.sender);
                         SendUserList(msg.sender);
                     }

@@ -33,7 +33,7 @@ public class DatabaseManager {
     }
      
      public boolean userExists(String username){
-        String sql = "select count(*) from users where username='"+ username +"'";
+        String sql = "select count(*) from users where username='"+ username +"' ";
            try {
                db.select(sql);
                while(db.rs.next()){
@@ -46,7 +46,7 @@ public class DatabaseManager {
      
      public boolean userExists(String username, String password){
        String sql = "select count(*) from users where username='"+ username +"'"
-               + " and password='"+password+"'";
+               + " and password='"+password+"' ";
            try {
                db.select(sql);
                while(db.rs.next()){
@@ -60,7 +60,7 @@ public class DatabaseManager {
      }
      
      public String getPublicKey (String username) {
-         String sql = "select public_key from users where username='"+ username+"'";
+         String sql = "select public_key from users where username='"+ username+"' ";
             //   + " and password='"+password+"'";
            try {
                db.select(sql);

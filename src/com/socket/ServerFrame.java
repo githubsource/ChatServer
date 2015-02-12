@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 public class ServerFrame extends javax.swing.JFrame {
@@ -30,6 +31,7 @@ public class ServerFrame extends javax.swing.JFrame {
         
         fileChooser = new JFileChooser();
         jTextArea1.setEditable(false);
+        btnAccMng.setEnabled(false);
     }
     
     public boolean isWin32(){
@@ -53,6 +55,7 @@ public class ServerFrame extends javax.swing.JFrame {
         txtFilePath = new javax.swing.JTextField();
         btnFileSelect = new javax.swing.JButton();
         btnSendFile = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("jServer");
@@ -64,12 +67,14 @@ public class ServerFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Server manager");
 
+        txtServerAddress.setBackground(new java.awt.Color(255, 249, 203));
         txtServerAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtServerAddressActionPerformed(evt);
             }
         });
 
+        btnStart.setForeground(new java.awt.Color(0, 150, 228));
         btnStart.setText("Start");
         btnStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,13 +82,15 @@ public class ServerFrame extends javax.swing.JFrame {
             }
         });
 
-        btnAccMng.setText("Account Manager");
+        btnAccMng.setForeground(new java.awt.Color(241, 64, 68));
+        btnAccMng.setText("Quản lí user");
         btnAccMng.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAccMngActionPerformed(evt);
             }
         });
 
+        jList1.setBackground(new java.awt.Color(255, 249, 205));
         jScrollPane2.setViewportView(jList1);
 
         btnSendMsg.setText("Send message");
@@ -106,12 +113,16 @@ public class ServerFrame extends javax.swing.JFrame {
             }
         });
 
+        btnSendFile.setBackground(new java.awt.Color(110, 238, 129));
+        btnSendFile.setForeground(new java.awt.Color(8, 154, 113));
         btnSendFile.setText("Send file");
         btnSendFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendFileActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("Danh sách user");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,41 +132,37 @@ public class ServerFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(13, 13, 13)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtServerAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtServerAddress)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnStart)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnAccMng)))))
-                        .addGap(12, 12, 12)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnAccMng, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtFilePath, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                                    .addComponent(txtMsg))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnSendMsg))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnFileSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnFileSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnSendFile)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                                        .addComponent(btnSendFile))
+                                    .addComponent(btnSendMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,19 +174,21 @@ public class ServerFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtServerAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAccMng)
                             .addComponent(btnStart))
-                        .addGap(18, 18, 18)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSendMsg))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                            .addComponent(txtMsg, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                            .addComponent(btnSendMsg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnFileSelect)
@@ -265,10 +274,13 @@ public class ServerFrame extends javax.swing.JFrame {
     private void txtFilePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFilePathActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFilePathActionPerformed
-
+    AccountManagerFrame accMg = null;
     private void btnAccMngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccMngActionPerformed
         // TODO add your handling code here:
-        AccountManagerFrame accMg = new AccountManagerFrame(this);
+        if(accMg == null) {
+           accMg = new AccountManagerFrame(this);
+        }
+        accMg.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         accMg.setVisible(true);
         try {
             accMg.accountMng.fillList();
@@ -293,11 +305,12 @@ public class ServerFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAccMng;
+    public javax.swing.JButton btnAccMng;
     public javax.swing.JButton btnFileSelect;
     public javax.swing.JButton btnSendFile;
     private javax.swing.JButton btnSendMsg;
     private javax.swing.JButton btnStart;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;

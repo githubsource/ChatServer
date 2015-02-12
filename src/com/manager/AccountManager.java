@@ -105,24 +105,30 @@ public class AccountManager {
     }
      
     public void delete(int id) throws SQLException{
-         String sql = "update " + UserDao.tableName 
-                 + " set deleted=1 where id="+id;
+        // String sql = "update " + UserDao.tableName 
+         //        + " set deleted=1 where id="+id;
+         
+         String sql = "delete from " + UserDao.tableName 
+                 + "  where id="+id;
          db.update(sql);
     }
     
     public void delete(String ids) throws SQLException{
-         String sql = "update " + UserDao.tableName 
-                 + " set deleted=1 where id in (" + ids + ")";
+         //String sql = "update " + UserDao.tableName 
+            //     + " set deleted=1 where id in (" + ids + ")";
+        String sql = "delete from " + UserDao.tableName 
+                 + " where id in (" + ids + ")";
          db.update(sql);
     }
     
      
     public ResultSet selectAll () throws SQLException {
-        String sql = "select * from users where deleted <> 1";
+        String sql = "select * from users ";
         return db.select(sql);
     }
     
     public void fillList () throws SQLException {
+        clearAccountTable();
         this.selectAll();
         fillByResultSet(this.db.rs);
     }
@@ -195,8 +201,9 @@ public class AccountManager {
         String findTxt = this.accountMngFrm.txtSearch.getText();
         String like = " like '%"+ findTxt +"%' ";
         String sql = "select * from users where "
-                + "username " + like 
-                + " or " + "employee_name " + like;
+                + "(username " + like 
+                + " or " + "employee_name " + like + ")"
+                ;
         
         db.select(sql);
       

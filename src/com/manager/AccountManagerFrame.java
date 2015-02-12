@@ -59,6 +59,7 @@ public class AccountManagerFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Hiển thị dữ liệu tìm kiếm");
 
+        jLabel2.setForeground(new java.awt.Color(18, 166, 172));
         jLabel2.setText("Nhập thông tin tìm kiếm");
 
         btnSearch.setText("Tìm kiếm");
@@ -68,6 +69,7 @@ public class AccountManagerFrame extends javax.swing.JFrame {
             }
         });
 
+        tblAcc.setBackground(new java.awt.Color(255, 253, 182));
         tblAcc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -78,6 +80,7 @@ public class AccountManagerFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblAcc);
 
+        btnAddAcc.setForeground(new java.awt.Color(75, 139, 238));
         btnAddAcc.setText("Thêm");
         btnAddAcc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,6 +88,7 @@ public class AccountManagerFrame extends javax.swing.JFrame {
             }
         });
 
+        btnEditAcc.setForeground(new java.awt.Color(80, 140, 243));
         btnEditAcc.setText("Sửa");
         btnEditAcc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +96,7 @@ public class AccountManagerFrame extends javax.swing.JFrame {
             }
         });
 
+        btnDeleteAcc.setForeground(new java.awt.Color(245, 1, 27));
         btnDeleteAcc.setText("Xoá");
         btnDeleteAcc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,6 +104,7 @@ public class AccountManagerFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setForeground(new java.awt.Color(92, 129, 250));
         jLabel3.setText("Chức năng");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
