@@ -6,8 +6,13 @@ import com.logic.CipherUtil;
 import com.logic.EncryptionUtil;
 import com.logic.Upload;
 import java.io.*;
+import static java.lang.Math.random;
+import java.math.BigInteger;
 import java.net.*;
 import java.security.PublicKey;
+import java.security.SecureRandom;
+import java.security.Signature;
+import javax.swing.JOptionPane;
 
 class ServerThread extends Thread { 
 	
@@ -18,7 +23,8 @@ class ServerThread extends Thread {
     public ObjectInputStream streamIn  =  null;
     public ObjectOutputStream streamOut = null;
     public ServerFrame ui;
-
+    String sessionId;
+    
     public ServerThread(SocketServer _server, Socket _socket){  
     	super();
         server = _server;
@@ -130,6 +136,19 @@ public class SocketServer implements Runnable {
         ui = frame;
     //    db = new Database(ui.filePath);
         
+         // my db       
+        String address = ui.txtServerAddress.getText();
+        MyDatabase mydb = new MyDatabase("jdbc:mysql://" + address + ":3306/chat", "root", "");
+        
+        
+        if(address.length()== 0 || !mydb.connect()) {
+            ui.jTextArea1.append("Can not connect to database !!\n");
+            JOptionPane.showMessageDialog(ui, "Can not connect to database !!\n", "WARNING.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        this.dbManager = new DatabaseManager(mydb);
+        // my db
+        
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
@@ -141,16 +160,7 @@ public class SocketServer implements Runnable {
             ui.RetryStart(0);
 	}
         
-        // my db       
-        String address = ui.txtServerAddress.getText();
-        MyDatabase mydb = new MyDatabase("jdbc:mysql://" + address + ":3306/chat", "root", "");
-        
-        
-        if(!mydb.connect()) {
-            ui.jTextArea1.append("Can not connect to database !!\n");
-        }
-        this.dbManager = new DatabaseManager(mydb);
-        // my db
+       
     }
     
     public SocketServer(ServerFrame frame, int Port){
@@ -227,7 +237,7 @@ public class SocketServer implements Runnable {
             if(msg.type.equals("login")){
                 if(findUserThread(msg.sender) == null){
                     //if(db.checkLogin(msg.sender, msg.content)){
-                    if(dbManager.checkLogin(msg.sender, msg.content)){
+                    if(dbManager.checkLogin(msg.sender, msg.content) && verify(dbManager.getPublicKey(msg.sender), msg.cipherBytes, clients[findClient(ID)].sessionId)){
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
                         
@@ -239,6 +249,7 @@ public class SocketServer implements Runnable {
                     }
                     else{
                         clients[findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
+                        remove(ID);
                     } 
                 }
                 else{
@@ -257,8 +268,9 @@ public class SocketServer implements Runnable {
                    // clients[findClient(ID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
                 }
             }
-            else if(msg.type.equals("test")){
-                clients[findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
+            else if(msg.type.equals("test")){                
+                //clients[findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
+                clients[findClient(ID)].send(new Message("test", "SERVER", clients[findClient(ID)].sessionId, msg.sender));
             }
            /* else if(msg.type.equals("signup")){
                 if(findUserThread(msg.sender) == null){
@@ -370,6 +382,8 @@ public class SocketServer implements Runnable {
 	if (clientCount < clients.length){  
             ui.jTextArea1.append("\nClient accepted: " + socket);
 	    clients[clientCount] = new ServerThread(this, socket);
+            clients[clientCount].sessionId = sessionId();
+            ui.jTextArea1.append("New connect with session id " + clients[clientCount].sessionId);
 	    try{  
 	      	clients[clientCount].open(); 
 	        clients[clientCount].start();  
@@ -383,4 +397,23 @@ public class SocketServer implements Runnable {
             ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
+    
+   public String sessionId() {
+     SecureRandom random = new SecureRandom();
+     return new BigInteger(130, random).toString(32);
+  }
+   
+   public boolean verify(String pubKey, byte sign[], String message) {
+       try {
+            Signature verifier = Signature.getInstance("SHA1withRSA");
+            PublicKey pubSaved = CipherUtil.loadPublicKey(pubKey);
+            verifier.initVerify(pubSaved);
+            verifier.update(message.getBytes("UTF-8"));
+            boolean result = verifier.verify(sign);
+            System.out.println("verify=" + result);
+            return result;
+       } catch (Exception e) {
+       }
+       return false;    
+   }
 }

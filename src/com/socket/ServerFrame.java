@@ -64,7 +64,6 @@ public class ServerFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Server manager");
 
-        txtServerAddress.setText("127.0.0.1");
         txtServerAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtServerAddressActionPerformed(evt);
